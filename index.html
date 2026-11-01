@@ -1,0 +1,151 @@
+# ab-games-app
+Aplicativo oficial da AB GAMES
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080f">
+<meta name="description" content="Aplicativo oficial da AB GAMES. Descubra nossos jogos!">
+<link rel="manifest" href="./manifest.json">
+<title>AB GAMES APP</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05080f;color:white;font-family:Arial,sans-serif}
+header{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #18314a}
+.logo{font-size:25px;font-weight:900;letter-spacing:2px}
+.logo span{color:#168cff}
+.hero{text-align:center;padding:65px 18px;background:radial-gradient(ellipse at center,#10345b,#05080f 72%)}
+.hero h1{font-size:clamp(27px,6vw,45px);color:#168cff}
+.hero p{color:#b9c8d8;line-height:1.6}
+button{cursor:pointer}
+.primary{background:#087bea;color:white;border:0;padding:14px 25px;border-radius:8px;font-weight:bold;font-size:15px}
+main{max-width:1050px;margin:auto;padding:25px 18px}
+.section-title{border-left:4px solid #168cff;padding-left:12px;font-size:22px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:18px}
+.card{background:#0c1420;border:1px solid #1b3450;border-radius:12px;overflow:hidden}
+.cover{height:145px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#071c31,#1266ad);font-size:55px}
+.info{padding:17px}
+.info h3{margin:9px 0}
+.info p{font-size:13px;color:#a9b7c6;line-height:1.5;min-height:38px}
+.tag{color:#54aaff;font-size:11px;font-weight:bold}
+.play{width:100%;background:#087bea;color:white;border:0;padding:13px;border-radius:7px;font-weight:bold;font-size:14px}
+.play:active,.primary:active{transform:scale(.97)}
+footer{text-align:center;padding:35px 15px;color:#8294a8;font-size:12px;line-height:2}
+#intro{position:fixed;inset:0;background:#03060d;display:flex;align-items:center;justify-content:center;text-align:center;z-index:5;padding:20px}
+#intro h1{font-size:clamp(35px,8vw,52px);letter-spacing:4px;margin:0}
+#intro h1 span{color:#168cff}
+#intro p{color:#a8bdd0;letter-spacing:3px;font-size:13px}
+#intro button{margin-top:18px}
+#install{display:none;margin:10px auto;background:#142c44;border:1px solid #168cff;color:white;padding:12px 18px;border-radius:8px}
+@media(max-width:600px){
+ header{padding:16px}
+ .logo{font-size:20px}
+ .hero{padding:48px 16px}
+ main{padding:22px 14px}
+ .games{grid-template-columns:1fr}
+ .cover{height:130px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+ <div>
+  <h1><span>AB</span> GAMES</h1>
+  <p>DESAFIE SEUS LIMITES</p>
+  <button class="primary" onclick="entrar()">ENTRAR</button>
+ </div>
+</div>
+
+<header>
+ <div class="logo"><span>AB</span> GAMES</div>
+ <div>🎮 APP OFICIAL</div>
+</header>
+
+<section class="hero">
+ <h1>SEU MUNDO DE JOGOS</h1>
+ <p>Descubra, explore e jogue com a AB GAMES.</p>
+ <button class="primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">VER JOGOS</button>
+ <button id="install">📲 INSTALAR AB GAMES</button>
+</section>
+
+<main id="catalogo">
+ <h2 class="section-title">NOSSOS JOGOS</h2>
+ <div class="games">
+
+  <div class="card">
+   <div class="cover">🧠</div>
+   <div class="info">
+    <span class="tag">AB GAMES ORIGINAL</span>
+    <h3>DESAFIO MENTAL</h3>
+    <p>Teste sua inteligência com desafios e enigmas.</p>
+    <button class="play" onclick="abrirJogo('desafio-mental')">JOGAR</button>
+   </div>
+  </div>
+
+  <div class="card">
+   <div class="cover">👻</div>
+   <div class="info">
+    <span class="tag">MISTÉRIO E TERROR</span>
+    <h3>O ÚLTIMO SINAL</h3>
+    <p>Uma cidade abandonada guarda um segredo.</p>
+    <button class="play" onclick="abrirJogo('o-ultimo-sinal')">EM BREVE</button>
+   </div>
+  </div>
+
+  <div class="card">
+   <div class="cover">🚛</div>
+   <div class="info">
+    <span class="tag">SIMULADOR</span>
+    <h3>AB TRUCK SIMULATOR</h3>
+    <p>Prepare-se para pegar a estrada.</p>
+    <button class="play" onclick="abrirJogo('ab-truck-simulator')">EM BREVE</button>
+   </div>
+  </div>
+
+ </div>
+</main>
+
+<footer>
+ AB GAMES © 2026<br>
+ DESAFIE SEUS LIMITES
+</footer>
+
+<script>
+function entrar(){
+ document.getElementById("intro").style.display="none";
+}
+
+function abrirJogo(jogo){
+ alert("Este jogo ainda está sendo preparado pela AB GAMES!");
+}
+
+let installPrompt;
+
+window.addEventListener("beforeinstallprompt",e=>{
+ e.preventDefault();
+ installPrompt=e;
+ document.getElementById("install").style.display="block";
+});
+
+document.getElementById("install").addEventListener("click",async()=>{
+ if(!installPrompt)return;
+ installPrompt.prompt();
+ await installPrompt.userChoice;
+ installPrompt=null;
+ document.getElementById("install").style.display="none";
+});
+
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js").catch(console.error);
+ });
+}
+</script>
+
+</body>
+</html>
